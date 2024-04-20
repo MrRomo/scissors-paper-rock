@@ -1,10 +1,10 @@
 import { useContext } from "react"
-import NativeSlider from "../atoms/Slider"
-import { TableContext } from "../../providers/TableProvider"
+import { TableContext } from "providers"
+import NativeSlider from "components/atoms/Slider"
 
 export const SetBar = () => {
 
-    const { values, setValues, innerSquares, square, setSquare } = useContext(TableContext)
+    const { values, setValues, innerSquares, isSquare: square, setSquare } = useContext(TableContext)
 
     const handleWitdhChange = (e: number) => {
         setValues({ ...values, panel: { ...values.panel, width: e } })

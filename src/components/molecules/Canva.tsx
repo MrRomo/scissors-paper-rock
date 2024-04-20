@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
- 
-import { TableContext, valuesProps } from "../../providers/TableProvider";
+
+import { getCoords } from "lib";
+import { TableContext, valuesProps } from "providers";
 import { useContext, useEffect, useRef } from "react";
 
 export const Canva = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const { values, setValues, innerSquares, square } = useContext(TableContext)
+    const { values, setValues, innerSquares, isSquare: square } = useContext(TableContext)
     // Función para ajustar el tamaño del canvas
     function resizeSquareCanvas() {
         const canvasContainer = document.getElementById('canvas-container');
@@ -14,16 +15,12 @@ export const Canva = () => {
         if (canvasContainer) {
             canvas.width = canvasContainer.offsetWidth as number;
             canvas.height = canvasContainer.offsetHeight;
+            const { xCoord, yCoord, xEnd, yEnd, } = getCoords(values);
 
-            const xCoord = values.square.x > values.square.endX ? values.square.endX : values.square.x
-            const yCoord = values.square.y > values.square.endY ? values.square.endY : values.square.y
-            const xEnd = values.square.x > values.square.endX ? values.square.x : values.square.endX
-            const yEnd = values.square.y > values.square.endY ? values.square.y : values.square.endY
-
-            // Dibujar algo en el canvas
             drawPattern();
             ctx.fillStyle = '#C25';
             if (square) {
+                //draw a square
                 ctx.fillRect(xCoord, yCoord, values.square.width, values.square.height);
             } else {
                 //draw a triangle
