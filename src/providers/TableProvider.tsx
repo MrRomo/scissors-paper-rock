@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createContext, useEffect, useState } from "react"
@@ -45,7 +46,7 @@ export const TableContext = createContext({
     innerSquares: [] as square[],
     setSquare: (_value: boolean) => { },
     setIntersect: (_value: boolean) => { },
-    setValues: (_values: valuesProps) => { },
+    setValues: (_values: any) => { },
     setInnerSquares: (_squares: square[]) => { }
 })
 

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { TableContext, valuesProps } from "../../providers/TableProvider";
 import { useContext, useEffect, useRef } from "react";
 
