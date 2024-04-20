@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createContext, useEffect, useState } from "react"
 
 interface square {
@@ -5,6 +7,21 @@ interface square {
     y: number
     width: number
     height: number
+}
+
+export interface valuesProps {
+    square: {
+        x: number
+        y: number
+        endX: number
+        endY: number
+        width: number
+        height: number
+    },
+    panel: {
+        width: number
+        height: number
+    }
 }
 
 export const TableContext = createContext({
@@ -26,10 +43,10 @@ export const TableContext = createContext({
     },
 
     innerSquares: [] as square[],
-    setSquare: (value: boolean) => { },
-    setIntersect: (value: boolean) => { },
-    setValues: (values: { square: square, triangle: square, panel: { width: number, height: number } }) => { },
-    setInnerSquares: (squares: square[]) => { }
+    setSquare: (_value: boolean) => { },
+    setIntersect: (_value: boolean) => { },
+    setValues: (_values: valuesProps) => { },
+    setInnerSquares: (_squares: square[]) => { }
 })
 
 export const TableProvider = ({ children }: { children: React.ReactNode }) => {

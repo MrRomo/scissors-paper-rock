@@ -1,4 +1,6 @@
-import { TableContext } from "../../providers/TableProvider";
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { TableContext, valuesProps } from "../../providers/TableProvider";
 import { useContext, useEffect, useRef } from "react";
 
 export const Canva = () => {
@@ -23,10 +25,10 @@ export const Canva = () => {
             ctx.fillStyle = '#C25';
             if (square) {
                 ctx.fillRect(xCoord, yCoord, values.square.width, values.square.height);
-            }else{
+            } else {
                 //draw a triangle
                 ctx.beginPath();
-                ctx.moveTo(xEnd-values.square.width/2, yCoord);
+                ctx.moveTo(xEnd - values.square.width / 2, yCoord);
                 ctx.lineTo(xCoord, yEnd);
                 ctx.lineTo(xEnd, yEnd);
                 ctx.closePath();
@@ -79,7 +81,7 @@ export const Canva = () => {
     useEffect(() => {
         const canvas = canvasRef.current as HTMLCanvasElement;
         canvas.addEventListener('mousedown', (evt) => {
-            setValues((values: any) => {
+            setValues((values: valuesProps) => {
                 return {
                     ...values,
                     square: {
@@ -92,7 +94,7 @@ export const Canva = () => {
         });
 
         canvas.addEventListener('mouseup', (evt) => {
-            setValues((values: any) => {
+            setValues((values: valuesProps) => {
                 return {
                     ...values,
                     square: {
@@ -105,7 +107,7 @@ export const Canva = () => {
         })
         canvas.addEventListener('mousemove', (evt) => {
             if (evt.buttons === 1) {
-                setValues((values: any) => {
+                setValues((values: valuesProps) => {
                     return {
                         ...values,
                         square: {
