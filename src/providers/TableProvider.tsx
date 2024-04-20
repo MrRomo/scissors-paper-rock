@@ -40,8 +40,8 @@ export const TableProvider = ({ children }: { children: React.ReactNode }) => {
         square: {
             x: 0,
             y: 0,
-            endX: 400,
-            endY: 200,
+            endX: 0,
+            endY: 0,
             width: 0,
             height: 0
         },
