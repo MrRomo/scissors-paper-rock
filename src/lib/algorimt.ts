@@ -65,10 +65,10 @@ export const TriangleFactor = (values: valuesProps) => {
     let SubSquareWidth = squareWidth
     let yPos = 1
     let xShift = 0
+    const A = (2 * SubSquareHeight) / SubSquareWidth
 
     while (SubSquareHeight >= values.panel.height && SubSquareWidth >= values.panel.width) {
-        const A = Math.atan((2 * SubSquareHeight) / SubSquareWidth)
-        const K = values.panel.height / Math.tan(A)
+        const K = values.panel.height / A
         SubSquareWidth -= 2 * K
         const subXCoord = xCoord + K
         const subYCoord = yEnd - (values.panel.height * yPos)
