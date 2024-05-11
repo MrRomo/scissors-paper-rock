@@ -1,119 +1,101 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { getCoords } from "@lib";
-import { TableContext, valuesProps } from "@providers";
+import { TableContext } from "@providers";
 import { useContext, useEffect, useRef } from "react";
 
 export const Canva = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const { values, setValues, innerSquares, isSquare: square } = useContext(TableContext)
+    const { walls, startWall, endWall } = useContext(TableContext)
     // Función para ajustar el tamaño del canvas
-    function resizeSquareCanvas() {
+    function redrawCanvas() {
         const canvasContainer = document.getElementById('canvas-container');
-        const canvas = canvasRef.current as HTMLCanvasElement;
-        const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-        if (canvasContainer) {
+        if (canvasContainer && canvasRef.current) {
+            const canvas = canvasRef.current as HTMLCanvasElement;
+            const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
             canvas.width = canvasContainer.offsetWidth as number;
             canvas.height = canvasContainer.offsetHeight;
-            const { xCoord, yCoord, xEnd, yEnd, } = getCoords(values);
-
             drawPattern();
-            ctx.fillStyle = '#C25';
-            if (square) {
-                //draw a square
-                ctx.fillRect(xCoord, yCoord, values.square.width, values.square.height);
-            } else {
-                //draw a triangle
-                ctx.beginPath();
-                ctx.moveTo(xEnd - values.square.width / 2, yCoord);
-                ctx.lineTo(xCoord, yEnd);
-                ctx.lineTo(xEnd, yEnd);
-                ctx.closePath();
-                ctx.fill();
+            console.log(walls);
+
+            for (let i = 0; i < walls.length; i++) {
+                if (!isNaN(walls[i].endX) || !isNaN(walls[i].endY)) {
+                    const values = walls[i].getSquare();
+                    ctx.fillStyle = '#C25';
+                    ctx.fillRect(walls[i].x, walls[i].y, values.width, values.height);
+                }
             }
-            ctx.strokeStyle = 'black';
-            ctx.beginPath();
-            ctx.lineWidth = 1;
-            ctx.moveTo(xCoord, yCoord - 15); // Regla horizontal superior
-            ctx.lineTo(xCoord, yCoord - 5);
+            //     const { xCoord, yCoord, xEnd, yEnd, } = getCoords(values);
 
-            ctx.moveTo(xCoord, yCoord - 10);
-            ctx.lineTo(xEnd, yCoord - 10);
+            //     ctx.fillStyle = '#C25';
+            //     if (square) {
+            //         //draw a square
+            //     } else {
+            //         //draw a triangle
+            //         ctx.beginPath();
+            //         ctx.moveTo(xEnd - values.square.width / 2, yCoord);
+            //         ctx.lineTo(xCoord, yEnd);
+            //         ctx.lineTo(xEnd, yEnd);
+            //         ctx.closePath();
+            //         ctx.fill();
+            //     }
+            //     ctx.strokeStyle = 'black';
+            //     ctx.beginPath();
+            //     ctx.lineWidth = 1;
+            //     ctx.moveTo(xCoord, yCoord - 15); // Regla horizontal superior
+            //     ctx.lineTo(xCoord, yCoord - 5);
 
-            ctx.moveTo(xEnd, yCoord - 15);
-            ctx.lineTo(xEnd, yCoord - 5);
+            //     ctx.moveTo(xCoord, yCoord - 10);
+            //     ctx.lineTo(xEnd, yCoord - 10);
 
-            ctx.moveTo(xCoord - 15, yCoord); // Regla vertical izquierda
-            ctx.lineTo(xCoord - 5, yCoord);
+            //     ctx.moveTo(xEnd, yCoord - 15);
+            //     ctx.lineTo(xEnd, yCoord - 5);
 
-            ctx.moveTo(xCoord - 10, yCoord);
-            ctx.lineTo(xCoord - 10, yEnd);
+            //     ctx.moveTo(xCoord - 15, yCoord); // Regla vertical izquierda
+            //     ctx.lineTo(xCoord - 5, yCoord);
 
-            ctx.moveTo(xCoord - 15, yEnd);
-            ctx.lineTo(xCoord - 5, yEnd);
+            //     ctx.moveTo(xCoord - 10, yCoord);
+            //     ctx.lineTo(xCoord - 10, yEnd);
 
-            for (let i = 0; i < innerSquares.length; i++) {
-                ctx.fillStyle = '#1D4';
-                ctx.fillRect(
-                    innerSquares[i].x,
-                    innerSquares[i].y,
-                    innerSquares[i].width,
-                    innerSquares[i].height
-                );
-                ctx.strokeRect(
-                    innerSquares[i].x,
-                    innerSquares[i].y,
-                    innerSquares[i].width,
-                    innerSquares[i].height
-                );
-            }
-            ctx.stroke();
+            //     ctx.moveTo(xCoord - 15, yEnd);
+            //     ctx.lineTo(xCoord - 5, yEnd);
+
+            //     for (let i = 0; i < innerSquares.length; i++) {
+            //         ctx.fillStyle = '#1D4';
+            //         ctx.fillRect(
+            //             innerSquares[i].x,
+            //             innerSquares[i].y,
+            //             innerSquares[i].width,
+            //             innerSquares[i].height
+            //         );
+            //         ctx.strokeRect(
+            //             innerSquares[i].x,
+            //             innerSquares[i].y,
+            //             innerSquares[i].width,
+            //             innerSquares[i].height
+            //         );
+            //     }
+            //     ctx.stroke();
         }
     }
 
     // Llamar a la función al cargar la página y al redimensionar la ventana
-    window.onload = resizeSquareCanvas;
-    window.addEventListener('resize', resizeSquareCanvas);
+    window.onload = redrawCanvas;
+    window.addEventListener('resize', redrawCanvas);
 
     useEffect(() => {
         const canvas = canvasRef.current as HTMLCanvasElement;
         canvas.addEventListener('mousedown', (evt) => {
-            setValues((values: valuesProps) => {
-                return {
-                    ...values,
-                    square: {
-                        ...values.square,
-                        x: Math.round(evt.offsetX),
-                        y: Math.round(evt.offsetY)
-                    }
-                }
-            });
+            console.log('startWall');
+            // if (evt.buttons === 1) return
+            startWall({ x: evt.offsetX, y: evt.offsetY });
         });
 
         canvas.addEventListener('mouseup', (evt) => {
-            setValues((values: valuesProps) => {
-                return {
-                    ...values,
-                    square: {
-                        ...values.square,
-                        endX: Math.round(evt.offsetX),
-                        enxY: Math.round(evt.offsetY)
-                    }
-                }
-            })
+            endWall({ x: evt.offsetX, y: evt.offsetY });
         })
         canvas.addEventListener('mousemove', (evt) => {
             if (evt.buttons === 1) {
-                setValues((values: valuesProps) => {
-                    return {
-                        ...values,
-                        square: {
-                            ...values.square,
-                            endX: evt.offsetX,
-                            endY: evt.offsetY
-                        }
-                    }
-                })
+                endWall({ x: evt.offsetX, y: evt.offsetY });
             }
         })
 
@@ -139,9 +121,11 @@ export const Canva = () => {
     }
 
     useEffect(() => {
-        resizeSquareCanvas();
-    }, [innerSquares, values.square, square])
+        redrawCanvas();
+    }, [walls])
 
 
-    return <canvas ref={canvasRef} />;
+    return <canvas
+
+        ref={canvasRef} />;
 }

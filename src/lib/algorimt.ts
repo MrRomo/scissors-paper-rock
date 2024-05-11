@@ -1,4 +1,5 @@
-import { square, valuesProps } from "@providers"
+import { square,valuesProps } from "@providers"
+import { Wall } from "./wall"
 
 export const SquareFactor = (values: valuesProps) => {
     const { xCoord, yCoord, xEnd, yEnd, squareWidth, squareHeight } = getCoords(values)
