@@ -17,8 +17,19 @@ export class Wall {
         const height = yEnd - y
         return { x, y, width, height }
     }
+
+    drawLine(ctx: CanvasRenderingContext2D) {
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = '#09D';
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.endX, this.endY);
+        ctx.stroke();
+    }
+
     // draw() {
     //     ctx.fillStyle = 'black';
     //     ctx.fillRect(this.x, this.y, this.width, this.height);
     // }
+
 }
