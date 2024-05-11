@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createContext, useEffect, useState } from "react"
-import { SquareFactor, TriangleFactor, getCoords } from "lib"
+import { SquareFactor, TriangleFactor, getCoords } from "@lib"
 
 export interface square {
     x: number

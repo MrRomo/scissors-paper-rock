@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { getCoords } from "lib";
-import { TableContext, valuesProps } from "providers";
+import { getCoords } from "@lib";
+import { TableContext, valuesProps } from "@providers";
 import { useContext, useEffect, useRef } from "react";
 
 export const Canva = () => {

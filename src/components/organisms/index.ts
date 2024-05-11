@@ -1,2 +1,3 @@
 export * from './Table';
-export * from './SetBar';
+export * from './Sidebar';
+export * from './Setbar';
