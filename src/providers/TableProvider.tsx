@@ -10,7 +10,8 @@ export const TableContext = createContext({
     startWall: (_coord: coord) => { },
     endWall: (_coord: coord) => { },
     stage: 'construct' as stage,
-    setStage: (_stage: stage) => { }
+    setStage: (_stage: stage) => { },
+    reset: () => { }
 })
 
 export const TableProvider = ({ children }: { children: React.ReactNode }) => {
@@ -18,15 +19,13 @@ export const TableProvider = ({ children }: { children: React.ReactNode }) => {
     const [stage, setStage] = useState<stage>('construct')
 
     const startWall = ({ x, y }: coord) => {
-        console.log('startWall', stage);
         if (stage !== 'construct') return
         const newWall = new Wall(x, y, x, y)
         walls.push(newWall)
         setWalls(walls)
     }
-    
+
     const endWall = ({ x, y }: coord) => {
-        console.log('startWall', stage);
         if (stage !== 'construct') return
         if (walls.length === 0) return
         const lastWall = walls[walls.length - 1]
@@ -35,8 +34,13 @@ export const TableProvider = ({ children }: { children: React.ReactNode }) => {
         setWalls([...walls])
     }
 
+    const reset = () => {
+        setWalls([])
+        setStage('construct')
+    }
+
     return (
-        <TableContext.Provider value={{ walls, startWall, endWall, stage, setStage }}>
+        <TableContext.Provider value={{ walls, startWall, reset, endWall, stage, setStage }}>
             {children}
         </TableContext.Provider>
     )

@@ -16,12 +16,7 @@ export const Canva = () => {
             canvas.width = canvasContainer.offsetWidth as number;
             canvas.height = canvasContainer.offsetHeight;
             drawPattern();
-            console.log(walls);
-            for (let i = 0; i < walls.length; i++) {
-                if (!isNaN(walls[i].endX) || !isNaN(walls[i].endY)) {
-                    walls[i].drawLine(ctx);
-                }
-            }
+            for (let i = 0; i < walls.length; i++) walls[i].drawLine(ctx);
         }
     }
 
@@ -31,14 +26,12 @@ export const Canva = () => {
 
     useEffect(() => {
         const canvas = canvasRef.current as HTMLCanvasElement;
-        console.log('useEffect', stage, canvas);
         function start(evt: MouseEvent) {
-            console.log('start', stage);
             startWall({ x: evt.offsetX, y: evt.offsetY });
         }
         canvas.addEventListener('mousedown', start)
         return () => canvas.removeEventListener('mousedown', start)
-    }, [stage]);
+    }, [stage, walls]);
 
     useEffect(() => {
         const canvas = canvasRef.current as HTMLCanvasElement;
@@ -48,7 +41,7 @@ export const Canva = () => {
         }
         canvas.addEventListener('mouseup', end)
         return () => canvas.removeEventListener('mouseup', end)
-    }, [stage]);
+    }, [stage, walls]);
 
     useEffect(() => {
         const canvas = canvasRef.current as HTMLCanvasElement;
@@ -58,7 +51,7 @@ export const Canva = () => {
         }
         canvas.addEventListener('mousemove', end)
         return () => canvas.removeEventListener('mousemove', end)
-    }, [stage]);
+    }, [stage, walls]);
 
     function drawPattern() {
         // Definir el patrón de líneas diagonales discontinuas
@@ -78,8 +71,5 @@ export const Canva = () => {
         redrawCanvas();
     }, [walls])
 
-
-    return <canvas
-
-        ref={canvasRef} />;
+    return <canvas ref={canvasRef} />;
 }
