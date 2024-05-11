@@ -1,13 +1,28 @@
 import { Button } from "@atoms"
+import { TableContext } from "@providers"
+import { useContext } from "react"
 
 export const Setbar = () => {
+    const { stage, setStage } = useContext(TableContext)
     return (
         <div className="w-full bg-slate-800 rounded-md py-4 flex flex-col gap-4">
             <h2 className="text-white text-center text-2xl font-bold">Scissors - Paper - Rock Battle Simulator</h2>
             <div className="flex justify-center gap-4 px-4">
-                <Button text="Construct" onClick={() => console.log("Construct")} />
-                <Button text="Set positions" onClick={() => console.log("Set positions")} />
-                <Button text="Start →" onClick={() => console.log("Start →")} />
+                <Button
+                    text="Construct"
+                    disabled={stage === 'run'}
+                    classes={stage === 'construct' ? 'bg-green-500' : ''}
+                    onClick={() => setStage("construct")}
+                />
+                <Button
+                    text="Set positions"
+                    disabled={stage === 'run'}
+                    classes={stage === 'set' ? 'bg-green-500' : ''}
+                    onClick={() => setStage('set')} />
+                {
+                    stage === 'run' ? <Button text="Pause →" onClick={() => setStage('pause')} /> :
+                        <Button text="Start →" onClick={() => setStage('run')} />
+                }
             </div >
         </div >
     )

@@ -5,7 +5,8 @@ import { useContext, useEffect, useRef } from "react";
 
 export const Canva = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const { walls, startWall, endWall } = useContext(TableContext)
+    const { walls, startWall, endWall, stage } = useContext(TableContext)
+
     // Función para ajustar el tamaño del canvas
     function redrawCanvas() {
         const canvasContainer = document.getElementById('canvas-container');
@@ -15,6 +16,7 @@ export const Canva = () => {
             canvas.width = canvasContainer.offsetWidth as number;
             canvas.height = canvasContainer.offsetHeight;
             drawPattern();
+            console.log(walls);
             for (let i = 0; i < walls.length; i++) {
                 if (!isNaN(walls[i].endX) || !isNaN(walls[i].endY)) {
                     walls[i].drawLine(ctx);
@@ -29,27 +31,34 @@ export const Canva = () => {
 
     useEffect(() => {
         const canvas = canvasRef.current as HTMLCanvasElement;
-        canvas.addEventListener('mousedown', (evt) => {
-            console.log('startWall');
-            // if (evt.buttons === 1) return
+        console.log('useEffect', stage, canvas);
+        function start(evt: MouseEvent) {
+            console.log('start', stage);
             startWall({ x: evt.offsetX, y: evt.offsetY });
-        });
-
-        canvas.addEventListener('mouseup', (evt) => {
-            endWall({ x: evt.offsetX, y: evt.offsetY });
-        })
-        canvas.addEventListener('mousemove', (evt) => {
-            if (evt.buttons === 1) {
-                endWall({ x: evt.offsetX, y: evt.offsetY });
-            }
-        })
-
-        return () => {
-            canvas.removeEventListener('mousedown', () => { });
-            canvas.removeEventListener('mouseup', () => { });
-            canvas.removeEventListener('mousemove', () => { });
         }
-    }, []);
+        canvas.addEventListener('mousedown', start)
+        return () => canvas.removeEventListener('mousedown', start)
+    }, [stage]);
+
+    useEffect(() => {
+        const canvas = canvasRef.current as HTMLCanvasElement;
+        function end(evt: MouseEvent) {
+            if (evt.buttons !== 1) return
+            endWall({ x: evt.offsetX, y: evt.offsetY });
+        }
+        canvas.addEventListener('mouseup', end)
+        return () => canvas.removeEventListener('mouseup', end)
+    }, [stage]);
+
+    useEffect(() => {
+        const canvas = canvasRef.current as HTMLCanvasElement;
+        function end(evt: MouseEvent) {
+            if (evt.buttons !== 1) return
+            endWall({ x: evt.offsetX, y: evt.offsetY });
+        }
+        canvas.addEventListener('mousemove', end)
+        return () => canvas.removeEventListener('mousemove', end)
+    }, [stage]);
 
     function drawPattern() {
         // Definir el patrón de líneas diagonales discontinuas
