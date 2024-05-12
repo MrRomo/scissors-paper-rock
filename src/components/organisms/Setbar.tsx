@@ -42,7 +42,7 @@ export const Setbar = () => {
                         <Button text="Continue →" onClick={() => setStage('run')} disabled={stage !== 'pause'} />
                 }
             </div >
-            <div className="flex justify-center gap-1 md:gap-4 px-2">
+            <div className="flex justify-center gap-1 md:gap-4 px-2 md:hidden">
                 <Button
                     text="Set positions"
                     disabled={stage === 'run'}
