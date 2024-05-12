@@ -57,6 +57,7 @@ export const TableProvider = ({ children }: { children: React.ReactNode }) => {
 
     const reset = () => {
         setWalls([])
+        setAgents([])
         setStage('construct')
     }
 

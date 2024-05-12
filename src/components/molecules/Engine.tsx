@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef } from "react"
 import { TableContext } from "@providers"
 
 export const Engine = ({ children }: { children: React.ReactNode }) => {
-    const { agents, stage, setAgents } = useContext(TableContext)
+    const { agents, stage, setAgents, emitters } = useContext(TableContext)
     const requestRef = useRef<number>()
 
     function drawElement() {
@@ -10,16 +10,29 @@ export const Engine = ({ children }: { children: React.ReactNode }) => {
         const canvas = document.getElementById('canvas') as HTMLCanvasElement
         const ctx = canvas.getContext('2d')
         if (!ctx) return
-        ctx.clearRect(0, 0, 800, 600)
+        //draw backgroudn pattern
+        ctx.fillStyle = 'rgb(30, 41, 59)'
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        //draw grid
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)'
+        ctx.lineWidth = 4
+        ctx.beginPath()
+        for (let i = -canvas.height; i < canvas.width; i += 20) {
+            ctx.moveTo(i, 0)
+            ctx.lineTo(i + canvas.height, canvas.height)
+        }
+        ctx.stroke()
+        //draw emmiters
+        emitters.paper.draw(ctx)
+        emitters.scissors.draw(ctx)
+        emitters.rock.draw(ctx)
+        //draw agents
         for (const agent of agents) {
-            ctx.beginPath()
-            ctx.arc(agent.coord.x, agent.coord.y, 10, 0, Math.PI * 2)
-            ctx.fill()
+            agent.draw(ctx)
         }
     }
 
     function animate() {
-        console.log('animating')
         updateElement() // Actualiza la posición del elemento
         drawElement() // Dibuja el elemento
         requestRef.current = requestAnimationFrame(animate)

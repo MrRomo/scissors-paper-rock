@@ -3,7 +3,20 @@ import { TableContext } from "@providers"
 import { useContext } from "react"
 
 export const Setbar = () => {
-    const { stage, setStage } = useContext(TableContext)
+    const { stage, setStage, emitters, setAgents } = useContext(TableContext)
+
+    const createAgents = () => {
+        const agents = []
+        for (let i = 0; i < 10; i++) {
+            agents.push(emitters.rock.createAgent())
+            agents.push(emitters.paper.createAgent())
+            agents.push(emitters.scissors.createAgent())
+        }
+        setAgents([...agents])
+        setStage('run')
+    }
+
+
     return (
         <div className="w-full bg-slate-800 rounded-md py-4 flex flex-col gap-4">
             <h2 className="text-white text-center text-2xl font-bold">Scissors - Paper - Rock Battle Simulator</h2>
@@ -21,7 +34,7 @@ export const Setbar = () => {
                     onClick={() => setStage('set')} />
                 {
                     stage === 'run' ? <Button text="Pause →" onClick={() => setStage('pause')} /> :
-                        <Button text="Start →" onClick={() => setStage('run')} />
+                        <Button text="Start →" onClick={createAgents} />
                 }
             </div >
         </div >
