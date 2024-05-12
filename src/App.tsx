@@ -5,9 +5,9 @@ import { TableProvider } from './providers/TableProvider'
 function App() {
   return (
     <TableProvider>
-      <div className="w-full h-full md:p-8 gap-4 flex flex-col">
+      <div className="w-full h-full md:p-1 gap-4 flex flex-col">
         <Setbar />
-        <div className="grid grid-cols-6 gap-2">
+        <div className=" flex md:flex-col md:grid grid-cols-6 gap-2 flex-col-reverse">
           <div className='col-span-1'>
             <Sidebar />
           </div>

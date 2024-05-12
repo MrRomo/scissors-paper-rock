@@ -11,13 +11,12 @@ interface NativeSliderProps {
 
 export function NativeSlider({ value, setValue, min, max, step, disabled }: NativeSliderProps) {
 
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue(Number(e.target.value));
     }
 
     return (
-        <div className='flex gap-2'>
+        <div className='flex gap-2 w-full'>
             <input
                 type="range"
                 min={min || 1} // Valor mínimo del slider
@@ -26,6 +25,7 @@ export function NativeSlider({ value, setValue, min, max, step, disabled }: Nati
                 onChange={handleChange} // Función que se ejecuta al cambiar el valor
                 step={step || 1}
                 disabled={disabled}
+                className='w-full'
             />
             <div>{value}</div> {/* Mostrar el valor actual */}
         </div>

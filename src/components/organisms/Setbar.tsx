@@ -1,9 +1,10 @@
 import { Button } from "@atoms"
 import { TableContext } from "@providers"
 import { useContext } from "react"
+import { twMerge } from "tailwind-merge"
 
 export const Setbar = () => {
-    const { stage, setStage, emitters, setAgents, randomizeEmmitters, startAgents } = useContext(TableContext)
+    const { stage, setStage, emitters, setAgents, randomizeEmmitters, startAgents, reset } = useContext(TableContext)
 
     const createAgents = () => {
         const agents = []
@@ -19,7 +20,14 @@ export const Setbar = () => {
 
     return (
         <div className="w-full bg-slate-800 rounded-md py-4 flex flex-col gap-4">
-            <h2 className="text-white text-center text-2xl font-bold">Scissors - Paper - Rock Battle Simulator</h2>
+            <div className="flex flex-col justify-center">
+                <h2 className="text-white text-center text-2xl font-bold">Scissors - Paper - Rock Battle Simulator</h2>
+                <p className="text-white text-center">A simple simulation of the game Scissors - Paper - Rock</p>
+                {/* <p className="text-white text-center">
+                    Time Spend
+                    <img className='mx-auto my-1' src="https://wakatime.com/badge/user/d0b2bf72-1c5b-45b1-bcd7-79a3fcfb29ed/project/1b0d6320-6158-4035-8547-d471536bac8a.svg" alt="wakatime" />
+                </p> */}
+            </div>
             <div className="flex justify-center gap-4 px-4">
                 {/* <Button
                     text="Construct"
@@ -30,8 +38,10 @@ export const Setbar = () => {
                 <Button
                     text="Set positions"
                     disabled={stage === 'run'}
-                    classes={stage === 'set' ? 'bg-green-500' : ''}
+                    classes={twMerge(stage === 'set' ? 'bg-green-500' : '', 'max-md:hidden')}
                     onClick={() => setStage('set')} />
+                <Button classes="px-12 " text="Reset" onClick={() => reset()} />
+
                 <Button
                     text="Randomize positions"
                     disabled={stage === 'run'}
