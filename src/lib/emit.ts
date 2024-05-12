@@ -1,8 +1,8 @@
 import { agent, coord } from "types"
 import { Agent } from "./agent"
+import { icons } from "./constants"
 
 export class Emmitter {
-    public icons = { scissors: '✂️', rock: '🪨', paper: '📜' }
     constructor(public icon: agent, public coords: coord) { }
     setCoord(coords: coord) {
         this.coords = coords
@@ -17,13 +17,13 @@ export class Emmitter {
         ctx.stroke()
         //draw icon
         ctx.font = '24px serif'
-        ctx.fillText(this.icons[this.icon], this.coords.x, this.coords.y)
+        ctx.fillText(icons[this.icon], this.coords.x, this.coords.y)
     }
 
     createAgent() {
         const direction = Math.random() * Math.PI * 2
         const x = this.coords.x + 15 + 30 * Math.cos(direction)
         const y = this.coords.y - 9 + 30 * Math.sin(direction)
-        return new Agent({ x, y }, direction, this.icons[this.icon])
+        return new Agent({ x, y }, direction, icons[this.icon])
     }
 }

@@ -4,7 +4,7 @@ import { TableContext } from "@providers"
 export const Engine = ({ children }: { children: React.ReactNode }) => {
     const { agents, stage, setAgents, emitters, walls } = useContext(TableContext)
     const requestRef = useRef<number>()
-    const distance = 10
+    const distance = 3
 
     function drawElement() {
         // Dibuja el elemento
@@ -46,15 +46,18 @@ export const Engine = ({ children }: { children: React.ReactNode }) => {
 
     function updateElement() {
         // Actualiza la posición del elemento
-        for (const agent of agents) {
-            agent.move()
-            const distances = walls.map(wall => ({ distance: agent.calculateDistance(wall), wall }))
+        for (let i = 0; i < agents.length; i++) {
+            agents[i].move()
+            const distances = walls.map(wall => ({ distance: agents[i].calculateDistance(wall), wall }))
             const closestWall = distances.filter(e => !isNaN(e.distance))
                 .reduce((acc, curr) => acc.distance < curr.distance ? acc : curr)
             if (closestWall.distance < distance) {
-                agent.direction = agent.calculateReflexion(closestWall.wall)
+                agents[i].direction = agents[i].calculateReflexion(closestWall.wall)
             }
-
+            //battle phase
+            for (let j = i+1; j < agents.length; j++) {
+                agents[i].battle(agents[j])
+            }
         }
         setAgents(agents)
     }

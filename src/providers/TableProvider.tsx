@@ -75,14 +75,11 @@ export const TableProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     const reset = () => {
-        setWalls([])
+        setDefaultBorderWalls()
         setAgents([])
         setStage('construct')
     }
-
-    useEffect(() => {
-        //set default border walls
-        if (!canvasSize) return
+    const setDefaultBorderWalls = () => {
         const { x, y, width, height } = canvasSize
         const borderWalls = [
             new Wall(x, y, x + width, y),
@@ -90,11 +87,11 @@ export const TableProvider = ({ children }: { children: React.ReactNode }) => {
             new Wall(x + width, y + height, x, y + height),
             new Wall(x, y + height, x, y)
         ]
-        walls[0] = borderWalls[0]
-        walls[1] = borderWalls[1]
-        walls[2] = borderWalls[2]
-        walls[3] = borderWalls[3]
-        setWalls([...walls])
+        setWalls(borderWalls)
+    }
+    useEffect(() => {
+        //set default border walls
+        if (canvasSize) setDefaultBorderWalls()
     }, [canvasSize])
 
     useEffect(() => {
