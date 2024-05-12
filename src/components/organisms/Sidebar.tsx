@@ -1,39 +1,56 @@
-import { Button } from "@atoms"
+import { Barchart, Button, NativeSlider } from "@atoms"
 import { TableContext } from "@providers"
+import { icons } from "@lib"
 import { useContext } from "react"
 import { twMerge } from "tailwind-merge"
 import { agent } from "types"
 
 export const Sidebar = () => {
-  const { reset, emitters, selectedAgent, setSelectedAgent, stage } = useContext(TableContext)
+  const { reset, emitters, selectedAgent, setSelectedAgent, stage, setVelocity, setStartAgents, startAgents, velocity } = useContext(TableContext)
+
   const agentClass = `bg-slate-700 rounded-full flex items-center justify-center font-medium text-lg w-36 py-4 ${stage === 'set' && 'cursor-pointer'}`
+
   const handleAgent = (agent: agent) => {
     if (stage === 'set') setSelectedAgent(agent)
   }
 
   return (
-    <div className="w-full  h-[70vh] bg-slate-800 rounded-md py-4">
+    <div className="w-full bg-slate-800 rounded-md py-4">
       <Button classes="px-12" text="Reset" onClick={() => reset()} />
-      <div className="my-4">
-        <div className="flex flex-col items-center justify-center gap-2">
-          <div className={twMerge(agentClass, selectedAgent === 'scissors' ? 'bg-slate-900' : '')}
-            onClick={() => handleAgent('scissors')}
-          >
-            <span role="img" aria-label="scissors">✂️</span>
-            {emitters.scissors.coords.x > 0 && emitters.scissors.coords.y > 0 ? `${Math.round(emitters.scissors.coords.x)}, ${Math.round(emitters.scissors.coords.y)}` : 'Set'}
-          </div>
-          <div className={twMerge(agentClass, selectedAgent === 'rock' ? 'bg-slate-900' : '')}
-            onClick={() => handleAgent('rock')}
-          >
-            <span role="img" aria-label="rock">🪨</span>
-            {emitters.rock.coords.x > 0 && emitters.rock.coords.y > 0 ? `${Math.round(emitters.rock.coords.x)}, ${Math.round(emitters.rock.coords.y)}` : 'Set'}
-          </div>
-          <div className={twMerge(agentClass, selectedAgent === 'paper' ? 'bg-slate-900' : '')}
-            onClick={() => handleAgent('paper')}
-          >
-            <span role="img" aria-label="paper">📜</span>
-            {emitters.paper.coords.x > 0 && emitters.paper.coords.y > 0 ? `${Math.round(emitters.paper.coords.x)}, ${Math.round(emitters.paper.coords.y)}` : 'Set'}
-          </div>
+      <div className={twMerge("m-4 border-4 border-gray-700 p-4 rounded-md", stage === 'set' && 'border-cyan-500')}>
+        <h1 className="text-center text-xl font-semibold mb-3">Set Position</h1>
+        <div className="flex items-center justify-center gap-2 px-2">
+          {
+            Object.keys(emitters).map((key, index) => {
+              const emitter = emitters[key as agent]
+              return (
+                <div key={index} className={twMerge(agentClass, selectedAgent === key ? 'bg-slate-900' : '')}
+                  onClick={() => handleAgent(key as agent)}
+                >
+                  <span role="img" aria-label={key}>{icons[emitter.icon]}</span>
+                </div>
+              )
+            })}
+        </div>
+      </div>
+      <div className="m-4 border-4 border-cyan-500 p-4 rounded-md">
+        <h1 className="text-center text-xl font-semibold mb-3">Game</h1>
+        <div className="flex items-center justify-center gap-2 px-2">
+          <Barchart color="red" icon={icons['scissors']} />
+          <Barchart color="green" icon={icons['rock']} />
+          <Barchart color="blue" icon={icons['paper']} />
+        </div>
+      </div>
+      <div className={twMerge("m-4 border-4 border-gray-700 p-4 rounded-md", stage !== 'run' && 'border-cyan-500')}>
+        <h1 className="text-center text-xl font-semibold mb-3">Start Agents</h1>
+        <div className="flex items-center justify-center gap-2 px-2">
+          <NativeSlider min={1} max={100} value={startAgents} setValue={setStartAgents} disabled={stage === 'run'} />
+        </div>
+      </div>
+      <div className="m-4 border-4 border-cyan-500 p-4 rounded-md">
+        <h1 className="text-center text-xl font-semibold mb-3">Velocity</h1>
+        <div className="flex items-center justify-center gap-2 px-2">
+          <NativeSlider min={0.1} max={5} value={velocity} setValue={setVelocity} step={0.01} />
         </div>
       </div>
     </div >

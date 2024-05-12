@@ -20,7 +20,11 @@ export const TableContext = createContext({
     setAgents: (_agents: Agent[]) => { },
     randomizeEmmitters: () => { },
     setCanvasSize: (_size: square) => { },
-    canvasSize: {} as square
+    canvasSize: {} as square,
+    startAgents: 20,
+    velocity: 3,
+    setStartAgents: (_startAgents: number) => { },
+    setVelocity: (_velocity: number) => { }
 })
 
 const defaultBorderWalls = [
@@ -32,16 +36,18 @@ const defaultBorderWalls = [
 
 export const TableProvider = ({ children }: { children: React.ReactNode }) => {
     const [walls, setWalls] = useState<Wall[]>(defaultBorderWalls)
+    const [startAgents, setStartAgents] = useState<number>(20)
+    const [velocity, setVelocity] = useState<number>(3)
     const [agents, setAgents] = useState<Agent[]>([])
     const [selectedAgent, setSelectedAgent] = useState<agent>('scissors')
-    const [canvasSize, setCanvasSize] = useState<square>({ x: 0, y: 0, width: 0, height: 0})
+    const [canvasSize, setCanvasSize] = useState<square>({ x: 0, y: 0, width: 0, height: 0 })
     const [emitters, setEmitters] = useState<typeEmitters>({
         scissors: new Emmitter('scissors', { x: 0, y: 0 }),
         rock: new Emmitter('rock', { x: 0, y: 0 }),
         paper: new Emmitter('paper', { x: 0, y: 0 })
     })
 
-    const [stage, setStage] = useState<stage>('construct')
+    const [stage, setStage] = useState<stage>('set')
 
     const startWall = ({ x, y }: coord) => {
         if (stage !== 'construct') return
@@ -67,11 +73,11 @@ export const TableProvider = ({ children }: { children: React.ReactNode }) => {
 
     const randomizeEmmitters = () => {
         Object.keys(emitters).forEach((key: string) => { // Change the type of 'key' to 'string'
-            const x = canvasSize!.x + canvasSize!.width * Math.random()
-            const y = canvasSize!.y + canvasSize!.height * Math.random()
+            const x = 50 + (canvasSize!.width - 100) * Math.random()
+            const y = 50 + (canvasSize!.height - 100) * Math.random()
             emitters[key as agent].setCoord({ x, y }) // Add a type assertion to 'key' as 'agent'
-            setEmitters({ ...emitters })
         })
+        setEmitters({ ...emitters })
     }
 
     const reset = () => {
@@ -79,6 +85,7 @@ export const TableProvider = ({ children }: { children: React.ReactNode }) => {
         setAgents([])
         setStage('construct')
     }
+
     const setDefaultBorderWalls = () => {
         const { x, y, width, height } = canvasSize
         const borderWalls = [
@@ -96,10 +103,11 @@ export const TableProvider = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         randomizeEmmitters()
-    },[])
+    }, [canvasSize])
 
     return (
         <TableContext.Provider value={{
+            velocity, setVelocity, startAgents, setStartAgents,
             setCanvasSize, canvasSize, randomizeEmmitters,
             agents, setAgents,
             setSelectedAgent, selectedAgent,

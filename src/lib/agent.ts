@@ -2,7 +2,6 @@ import { coord } from "types";
 import { Wall } from "./wall";
 
 export class Agent {
-    private step = 5
     private distance = 10
     constructor(
         public coord: coord,
@@ -10,10 +9,10 @@ export class Agent {
         public icon: string
     ) { }
 
-    public move() {
+    public move(step: number) {
         // move agent from coord to 10px in direction
-        this.coord.x += this.step * Math.cos(this.direction)
-        this.coord.y += this.step * Math.sin(this.direction)
+        this.coord.x += step * Math.cos(this.direction)
+        this.coord.y += step * Math.sin(this.direction)
     }
 
     public draw(ctx: CanvasRenderingContext2D) {

@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef } from "react"
 import { TableContext } from "@providers"
 
 export const Engine = ({ children }: { children: React.ReactNode }) => {
-    const { agents, stage, setAgents, emitters, walls } = useContext(TableContext)
+    const { agents, stage, setAgents, emitters, walls, velocity, canvasSize } = useContext(TableContext)
     const requestRef = useRef<number>()
     const distance = 3
 
@@ -27,7 +27,6 @@ export const Engine = ({ children }: { children: React.ReactNode }) => {
         for (const wall of walls) {
             wall.draw(ctx)
         }
-
         //draw emmiters
         emitters.paper.draw(ctx)
         emitters.scissors.draw(ctx)
@@ -47,7 +46,11 @@ export const Engine = ({ children }: { children: React.ReactNode }) => {
     function updateElement() {
         // Actualiza la posición del elemento
         for (let i = 0; i < agents.length; i++) {
-            agents[i].move()
+            agents[i].move(velocity)
+            if (agents[i].coord.x < -5 || agents[i].coord.x > canvasSize.width + 5 || agents[i].coord.y < -5 || agents[i].coord.y > canvasSize.height + 5) {
+                agents.splice(i, 1)
+                continue
+            }
             const distances = walls.map(wall => ({ distance: agents[i].calculateDistance(wall), wall }))
             const closestWall = distances.filter(e => !isNaN(e.distance))
                 .reduce((acc, curr) => acc.distance < curr.distance ? acc : curr)
@@ -55,11 +58,11 @@ export const Engine = ({ children }: { children: React.ReactNode }) => {
                 agents[i].direction = agents[i].calculateReflexion(closestWall.wall)
             }
             //battle phase
-            for (let j = i+1; j < agents.length; j++) {
+            for (let j = i + 1; j < agents.length; j++) {
                 agents[i].battle(agents[j])
             }
         }
-        setAgents(agents)
+        setAgents([...agents])
     }
 
 
@@ -67,7 +70,7 @@ export const Engine = ({ children }: { children: React.ReactNode }) => {
         if (stage !== 'run') return
         animate()
         return () => cancelAnimationFrame(requestRef.current as number)
-    }, [stage])
+    }, [stage, velocity])
 
 
     return children

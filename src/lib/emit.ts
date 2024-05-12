@@ -11,7 +11,7 @@ export class Emmitter {
     draw(ctx: CanvasRenderingContext2D) {
         //draw circle
         ctx.beginPath()
-        ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)'
+        ctx.strokeStyle = 'rgba(250, 250, 50, 0.5)'
         ctx.lineWidth = 2
         ctx.arc(this.coords.x + 15, this.coords.y - 9, 30, 0, 2 * Math.PI)
         ctx.stroke()

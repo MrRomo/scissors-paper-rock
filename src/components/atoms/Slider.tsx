@@ -1,23 +1,33 @@
 import React from 'react';
 
-function NativeSlider({value, setValue}: {value: number, setValue: (e: number) => void}){
+interface NativeSliderProps {
+    setValue: (e: number) => void;
+    min: number;
+    max: number;
+    value: number;
+    step?: number;
+    disabled?: boolean;
+}
+
+export function NativeSlider({ value, setValue, min, max, step, disabled }: NativeSliderProps) {
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(parseInt(e.target.value));
+        setValue(Number(e.target.value));
     }
 
     return (
         <div className='flex gap-2'>
             <input
                 type="range"
-                min={1} // Valor mínimo del slider
-                max={300} // Valor máximo del slider
+                min={min || 1} // Valor mínimo del slider
+                max={max || 300} // Valor máximo del slider
                 value={value} // Valor actual del slider
                 onChange={handleChange} // Función que se ejecuta al cambiar el valor
+                step={step || 1}
+                disabled={disabled}
             />
             <div>{value}</div> {/* Mostrar el valor actual */}
         </div>
     );
 }
-
-export default NativeSlider;
