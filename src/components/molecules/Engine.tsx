@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef } from "react"
 import { TableContext } from "@providers"
 
 export const Engine = ({ children }: { children: React.ReactNode }) => {
-    const { agents, stage, setAgents, emitters } = useContext(TableContext)
+    const { agents, stage, setAgents, emitters, walls } = useContext(TableContext)
     const requestRef = useRef<number>()
 
     function drawElement() {
@@ -22,6 +22,11 @@ export const Engine = ({ children }: { children: React.ReactNode }) => {
             ctx.lineTo(i + canvas.height, canvas.height)
         }
         ctx.stroke()
+        //draw walls
+        for (const wall of walls) {
+            wall.draw(ctx)
+        }
+
         //draw emmiters
         emitters.paper.draw(ctx)
         emitters.scissors.draw(ctx)

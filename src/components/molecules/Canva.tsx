@@ -6,7 +6,7 @@ import { Engine } from "./Engine"
 
 export const Canva = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null)
-    const { walls, startWall, endWall, stage, setEmmitter, selectedAgent, emitters } = useContext(TableContext)
+    const { walls, startWall, endWall, stage, setEmmitter, selectedAgent, emitters, setCanvasSize, canvasSize } = useContext(TableContext)
 
     // Función para ajustar el tamaño del canvas
     function redrawCanvas() {
@@ -16,8 +16,10 @@ export const Canva = () => {
             const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
             canvas.width = canvasContainer.offsetWidth as number
             canvas.height = canvasContainer.offsetHeight
+            if (canvas.width !== canvasSize.width || canvas.height !== canvasSize.height)
+                setCanvasSize({ x: 0, y: 0, width: canvas.width, height: canvas.height })
             drawPattern()
-            for (const wall of walls) wall.drawLine(ctx)
+            for (const wall of walls) wall.draw(ctx)
             emitters.paper.draw(ctx)
             emitters.scissors.draw(ctx)
             emitters.rock.draw(ctx)

@@ -20,19 +20,19 @@ export const Sidebar = () => {
             onClick={() => handleAgent('scissors')}
           >
             <span role="img" aria-label="scissors">✂️</span>
-            {emitters.scissors.coords.x > 0 && emitters.scissors.coords.y > 0 ? `${emitters.scissors.coords.x}, ${emitters.scissors.coords.y}` : 'Set'}
+            {emitters.scissors.coords.x > 0 && emitters.scissors.coords.y > 0 ? `${Math.round(emitters.scissors.coords.x)}, ${Math.round(emitters.scissors.coords.y)}` : 'Set'}
           </div>
           <div className={twMerge(agentClass, selectedAgent === 'rock' ? 'bg-slate-900' : '')}
             onClick={() => handleAgent('rock')}
           >
             <span role="img" aria-label="rock">🪨</span>
-            {emitters.rock.coords.x > 0 && emitters.rock.coords.y > 0 ? `${emitters.rock.coords.x}, ${emitters.rock.coords.y}` : 'Set'}
+            {emitters.rock.coords.x > 0 && emitters.rock.coords.y > 0 ? `${Math.round(emitters.rock.coords.x)}, ${Math.round(emitters.rock.coords.y)}` : 'Set'}
           </div>
           <div className={twMerge(agentClass, selectedAgent === 'paper' ? 'bg-slate-900' : '')}
             onClick={() => handleAgent('paper')}
           >
             <span role="img" aria-label="paper">📜</span>
-            {emitters.paper.coords.x > 0 && emitters.paper.coords.y > 0 ? `${emitters.paper.coords.x}, ${emitters.paper.coords.y}` : 'Set'}
+            {emitters.paper.coords.x > 0 && emitters.paper.coords.y > 0 ? `${Math.round(emitters.paper.coords.x)}, ${Math.round(emitters.paper.coords.y)}` : 'Set'}
           </div>
         </div>
       </div>

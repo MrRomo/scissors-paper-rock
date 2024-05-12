@@ -18,7 +18,7 @@ export class Wall {
         return { x, y, width, height }
     }
 
-    drawLine(ctx: CanvasRenderingContext2D) {
+    draw(ctx: CanvasRenderingContext2D) {
         ctx.lineWidth = 10;
         ctx.strokeStyle = `rgb(
             0

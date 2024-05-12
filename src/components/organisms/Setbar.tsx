@@ -3,11 +3,11 @@ import { TableContext } from "@providers"
 import { useContext } from "react"
 
 export const Setbar = () => {
-    const { stage, setStage, emitters, setAgents } = useContext(TableContext)
+    const { stage, setStage, emitters, setAgents,randomizeEmmitters } = useContext(TableContext)
 
     const createAgents = () => {
         const agents = []
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 50; i++) {
             agents.push(emitters.rock.createAgent())
             agents.push(emitters.paper.createAgent())
             agents.push(emitters.scissors.createAgent())
@@ -32,6 +32,10 @@ export const Setbar = () => {
                     disabled={stage === 'run'}
                     classes={stage === 'set' ? 'bg-green-500' : ''}
                     onClick={() => setStage('set')} />
+                <Button
+                    text="Randomize positions"
+                    disabled={stage === 'run'}
+                    onClick={randomizeEmmitters} />
                 {
                     stage === 'run' ? <Button text="Pause →" onClick={() => setStage('pause')} /> :
                         <Button text="Start →" onClick={createAgents} />
