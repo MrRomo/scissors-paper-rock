@@ -2,6 +2,7 @@
 
 import { TableContext } from "@providers"
 import { useContext, useEffect, useRef } from "react"
+import { Engine } from "./Engine"
 
 export const Canva = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -84,5 +85,7 @@ export const Canva = () => {
         redrawCanvas()
     }, [walls, emitters])
 
-    return <canvas ref={canvasRef} />
+    return <Engine>
+        <canvas ref={canvasRef} id='canvas' />
+    </Engine>
 }

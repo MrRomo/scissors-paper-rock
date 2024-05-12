@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createContext, useState } from "react"
-import { Emmitter, Wall } from "@lib"
-import { agent, agents, coord, stage } from "types"
+import { createContext, useEffect, useState } from "react"
+import { Agent, Emmitter, Engine, Wall } from "@lib"
+import { agent, typeEmitters, coord, stage } from "types"
 
 export const TableContext = createContext({
     walls: [] as Wall[],
@@ -12,20 +12,25 @@ export const TableContext = createContext({
     stage: 'construct' as stage,
     setStage: (_stage: stage) => { },
     reset: () => { },
-    emitters: {} as agents,
+    emitters: {} as typeEmitters,
     setEmmitter: (_agent: agent, _coords: coord) => { },
     setSelectedAgent: (_agent: agent) => { },
-    selectedAgent: 'scissors' as agent
+    selectedAgent: 'scissors' as agent,
+    agents: [] as Agent[],
+    setAgents: (_agents: Agent[]) => { }
+
 })
 
 export const TableProvider = ({ children }: { children: React.ReactNode }) => {
     const [walls, setWalls] = useState<Wall[]>([])
+    const [agents, setAgents] = useState<Agent[]>([])
     const [selectedAgent, setSelectedAgent] = useState<agent>('scissors')
-    const [emitters, setEmitters] = useState<agents>({
+    const [emitters, setEmitters] = useState<typeEmitters>({
         scissors: new Emmitter('scissors', { x: -70, y: -70 }),
         rock: new Emmitter('rock', { x: -70, y: -70 }),
         paper: new Emmitter('paper', { x: -70, y: -70 })
     })
+
     const [stage, setStage] = useState<stage>('construct')
 
     const startWall = ({ x, y }: coord) => {
@@ -57,6 +62,7 @@ export const TableProvider = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <TableContext.Provider value={{
+            agents, setAgents,
             setSelectedAgent, selectedAgent,
             emitters, setEmmitter,
             walls, startWall, reset,
