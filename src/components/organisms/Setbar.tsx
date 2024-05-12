@@ -7,7 +7,7 @@ export const Setbar = () => {
 
     const createAgents = () => {
         const agents = []
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 10; i++) {
             agents.push(emitters.rock.createAgent())
             agents.push(emitters.paper.createAgent())
             agents.push(emitters.scissors.createAgent())

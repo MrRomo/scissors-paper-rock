@@ -12,7 +12,7 @@ export class Emmitter {
         //draw circle
         ctx.beginPath()
         ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)'
-        ctx.lineWidth = 4
+        ctx.lineWidth = 2
         ctx.arc(this.coords.x + 15, this.coords.y - 9, 30, 0, 2 * Math.PI)
         ctx.stroke()
         //draw icon
