@@ -83,7 +83,7 @@ export const TableProvider = ({ children }: { children: React.ReactNode }) => {
     const reset = () => {
         setDefaultBorderWalls()
         setAgents([])
-        setStage('construct')
+        setStage('set')
     }
 
     const setDefaultBorderWalls = () => {

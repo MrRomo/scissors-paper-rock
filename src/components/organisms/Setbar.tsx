@@ -28,28 +28,33 @@ export const Setbar = () => {
                     <img className='mx-auto my-1' src="https://wakatime.com/badge/user/d0b2bf72-1c5b-45b1-bcd7-79a3fcfb29ed/project/1b0d6320-6158-4035-8547-d471536bac8a.svg" alt="wakatime" />
                 </p> */}
             </div>
-            <div className="flex justify-center gap-4 px-4">
-                {/* <Button
-                    text="Construct"
-                    disabled={stage === 'run'}
-                    classes={stage === 'construct' ? 'bg-green-500' : ''}
-                    onClick={() => setStage("construct")}
-                /> */}
+            <div className="flex justify-center max-md:hidden gap-4 px-4">
                 <Button
                     text="Set positions"
                     disabled={stage === 'run'}
                     classes={twMerge(stage === 'set' ? 'bg-green-500' : '', 'max-md:hidden')}
                     onClick={() => setStage('set')} />
-                <Button classes="px-12 " text="Reset" onClick={() => reset()} />
-
-                <Button
-                    text="Randomize positions"
-                    disabled={stage === 'run'}
-                    onClick={randomizeEmmitters} />
+                <Button text="Reset" onClick={() => reset()} />
+                <Button text="Randomize positions" disabled={stage === 'run'} onClick={randomizeEmmitters} />
                 <Button text="Start →" onClick={createAgents} />
                 {
                     stage === 'run' ? <Button text="Pause ||" onClick={() => setStage('pause')} disabled={stage !== 'run'} /> :
                         <Button text="Continue →" onClick={() => setStage('run')} disabled={stage !== 'pause'} />
+                }
+            </div >
+            <div className="flex justify-center gap-1 md:gap-4 px-2">
+                <Button
+                    text="Set positions"
+                    disabled={stage === 'run'}
+                    classes={twMerge(stage === 'set' ? 'bg-green-500' : '', 'max-md:hidden')}
+                    onClick={() => setStage('set')} />
+                <Button text="Reset" onClick={() => reset()} />
+                <Button text="Random" disabled={stage === 'run'} onClick={randomizeEmmitters} />
+
+                {stage === 'set' && <Button classes={twMerge()} text="Start →" onClick={createAgents} />}
+                {
+                    stage === 'run' ? <Button text="Pause ⏸️" onClick={() => setStage('pause')} disabled={stage !== 'run'} /> :
+                        stage === 'pause' && <Button text="Continue ▶️" onClick={() => setStage('run')} />
                 }
             </div >
         </div >
