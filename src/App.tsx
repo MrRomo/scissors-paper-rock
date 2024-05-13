@@ -1,6 +1,7 @@
 import { Setbar, Sidebar, Table } from '@organisms'
 import './App.css'
 import { TableProvider } from './providers/TableProvider'
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           </div>
         </div>
       </div>
+      <Analytics />
     </TableProvider>
   )
 }
