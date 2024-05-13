@@ -17,7 +17,7 @@ export class Agent {
 
     public draw(ctx: CanvasRenderingContext2D) {
         ctx.beginPath()
-        ctx.font = '18px serif'
+        ctx.font = '18px sans-serif'
         ctx.fillText(this.icon, this.coord.x, this.coord.y)
     }
 

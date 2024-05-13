@@ -16,7 +16,7 @@ export class Emmitter {
         ctx.arc(this.coords.x + 15, this.coords.y - 9, 30, 0, 2 * Math.PI)
         ctx.stroke()
         //draw icon
-        ctx.font = '24px serif'
+        ctx.font = '24px sans-serif'
         ctx.fillText(icons[this.icon], this.coords.x, this.coords.y)
     }
 
