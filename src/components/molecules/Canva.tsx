@@ -28,7 +28,7 @@ export const Canva = () => {
 
     // Llamar a la función al cargar la página y al redimensionar la ventana
     window.onload = redrawCanvas
-    window.addEventListener('resize', redrawCanvas)
+    // window.addEventListener('resize', redrawCanvas)
 
     useEffect(() => {
         const canvas = canvasRef.current as HTMLCanvasElement
