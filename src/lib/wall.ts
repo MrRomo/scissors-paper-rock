@@ -20,10 +20,7 @@ export class Wall {
 
     draw(ctx: CanvasRenderingContext2D) {
         ctx.lineWidth = 10;
-        ctx.strokeStyle = `rgb(
-            0
-            ${Math.floor(255)}
-            ${Math.floor(2)})`;
+        ctx.strokeStyle = `#FF4`;
 
         ctx.beginPath();
         ctx.moveTo(this.x, this.y);

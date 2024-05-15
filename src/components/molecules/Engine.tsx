@@ -6,7 +6,7 @@ export const Engine = ({ children }: { children: React.ReactNode }) => {
     const requestRef = useRef<number>()
     const distance = 3
 
-    function drawElement() {
+    function drawGame() {
         // Dibuja el elemento
         const canvas = document.getElementById('canvas') as HTMLCanvasElement
         const ctx = canvas.getContext('2d')
@@ -15,14 +15,14 @@ export const Engine = ({ children }: { children: React.ReactNode }) => {
         ctx.fillStyle = 'rgb(30, 41, 59)'
         ctx.fillRect(0, 0, canvas.width, canvas.height)
         //draw grid
-        ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)'
-        ctx.lineWidth = 4
-        ctx.beginPath()
-        for (let i = -canvas.height; i < canvas.width; i += 20) {
-            ctx.moveTo(i, 0)
-            ctx.lineTo(i + canvas.height, canvas.height)
-        }
-        ctx.stroke()
+        // ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)'
+        // ctx.lineWidth = 4
+        // ctx.beginPath()
+        // for (let i = -canvas.height; i < canvas.width; i += 20) {
+        //     ctx.moveTo(i, 0)
+        //     ctx.lineTo(i + canvas.height, canvas.height)
+        // }
+        // ctx.stroke()
         //draw walls
         for (const wall of walls) {
             wall.draw(ctx)
@@ -39,7 +39,7 @@ export const Engine = ({ children }: { children: React.ReactNode }) => {
 
     function animate() {
         updateElement() // Actualiza la posición del elemento
-        drawElement() // Dibuja el elemento
+        drawGame() // Dibuja el elemento
         requestRef.current = requestAnimationFrame(animate)
     }
 

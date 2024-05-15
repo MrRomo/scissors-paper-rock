@@ -17,16 +17,19 @@ const colorBar = {
 export const Barchart = ({ color, icon}: BarchartProps) => {
     const { agents } = useContext(TableContext)
     const [percentage, setPercentage] = useState(0)
+    // const [count, setCount] = useState(0)
 
     useEffect(() => {
         const total = agents.length
         const count = agents.filter(agent => agent.icon === icon).length
         const percentage = (count / total) * 100
         setPercentage(percentage)
+        // setCount(count)
     }, [agents, icon])
 
     return (
         <div className={twMerge("flex items-center gap-2 flex-row-reverse md:flex-col w-full")}>
+            {/* <span role="img" aria-label="icon">{count}</span> */}
             <div className={twMerge(" bg-slate-700 rounded-full flex flex-row md:w-4 md:h-32 md:flex-col-reverse w-full h-4")}>
                 <div className={`h-full md:hidden ${colorBar[color]} rounded-full `} style={{ width: `${percentage}%` }}></div>
                 <div className={`w-full max-md:hidden ${colorBar[color]} rounded-full `} style={{ height: `${percentage}%` }}></div>
